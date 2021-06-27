@@ -47,7 +47,7 @@ func (i *Impl) PostRecipe(w rest.ResponseWriter, r *rest.Request){
 		var res ErrorResponceWithRequrired
 		res.Message = "Recipe creation failed!"
 		res.Required = "title, making_time, serves, ingredients, cost"
-		w.WriteHeader(500)
+		w.WriteHeader(200)
 		w.WriteJson(&res)
 		return
 	}
