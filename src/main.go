@@ -14,20 +14,22 @@ import (
 	"github.com/joho/godotenv"
 )
 
+var timeZoneJST = time.FixedZone("Asia/Tokyo", 9*60*60)
+
 type DBTime struct {
 	time.Time
 }
 
 func (t DBTime) MarshalJSON() ([]byte, error) {
-	return []byte(t.Time.Format(`"2006-01-02 15:04:05"`)), nil
+	return []byte(t.Time.In(timeZoneJST).Format(`"2006-01-02 15:04:05"`)), nil
 }
 
 func (t DBTime) MarshalText() ([]byte, error) {
-    return []byte(t.Time.Format(`"2006-01-02 15:04:05"`)), nil
+    return []byte(t.Time.In(timeZoneJST).Format(`"2006-01-02 15:04:05"`)), nil
 }
 
 func (t *DBTime) Scan(value interface{}) error {
-	t.Time = value.(time.Time)
+	t.Time = value.(time.Time).In(timeZoneJST)
 	return nil
 }
 
